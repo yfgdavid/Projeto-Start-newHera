@@ -43,4 +43,66 @@ A usuária acessa uma seção chamada primeiro impulso?, com conteúdos rápidos
 
 ## Rentabilidade - Plano de Assinatura Único
 - A plataforma oferece um plano único e opcional, que a usuária pode aderir para ter benefícios como menor taxa nas transações, alem de ter a visibilidade destacada no match. (prestadora) ou alguns cupons de desconto para a contratação de serviços futuros (cliente).
-- sistema em que um prestador de serviços pode completar até 3 atendimentos no site sem pagar nenhuma taxa. A partir do 4º serviço, o site passa a cobrar uma porcentagem sobre os ganhos do prestador. 
+- sistema em que um prestador de serviços pode completar até 3 atendimentos no site sem pagar nenhuma taxa. A partir do 4º serviço, o site passa a cobrar uma porcentagem sobre os ganhos do prestador.
+
+## Banco de dados
+```mermaid
+erDiagram
+    usuarios {
+        int id PK
+        string nome
+        string email
+        string senha
+        string telefone
+        enum tipo
+        string rua
+        string bairro
+        int cep
+        timestamp datacriacao
+    }
+    
+    favorito {
+        int idfavorito PK
+        int idclientefavoritou
+        int idprestadorfavorito
+        datetime datafavoritamento
+    }
+    
+    servicos {
+        int idservicos PK
+        text descricao
+        decimal preco
+        string titulo
+        timestamp datacriacao
+        string categoria
+        int favorito_idfavorito
+    }
+    
+    contratacao {
+        int idcontratacao PK
+        int usuarios_id
+        int servicos_idservicos
+        string status
+        timestamp datacontratacao
+        text comentarios
+    }
+    
+    contratacao_has_usuarios {
+        int contratacao_idcontratacao PK
+        int usuarios_id PK
+    }
+    
+    avaliacao {
+        int idavaliacao PK
+        int contratacao_idcontratacao
+        int nota
+    }
+
+    usuarios ||--o{ favorito : "idclientefavoritou"
+    usuarios ||--o{ favorito : "idprestadorfavorito"
+    favorito ||--o{ servicos : "favorito_idfavorito"
+    usuarios ||--o{ contratacao : "usuarios_id"
+    servicos ||--o{ contratacao : "servicos_idservicos"
+    contratacao ||--o{ contratacao_has_usuarios : "contratacao_idcontratacao"
+    usuarios ||--o{ contratacao_has_usuarios : "usuarios_id"
+    contratacao ||--o{ avaliacao : "contratacao_idcontratacao"
