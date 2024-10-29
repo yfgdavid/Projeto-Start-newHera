@@ -87,11 +87,6 @@ erDiagram
         text comentarios
     }
     
-    contratacao_has_usuarios {
-        int contratacao_idcontratacao PK
-        int usuarios_id PK
-    }
-    
     avaliacao {
         int idavaliacao PK
         int contratacao_idcontratacao
@@ -103,6 +98,4 @@ erDiagram
     favorito ||--o{ servicos : "favorito_idfavorito"
     usuarios ||--o{ contratacao : "usuarios_id"
     servicos ||--o{ contratacao : "servicos_idservicos"
-    contratacao ||--o{ contratacao_has_usuarios : "contratacao_idcontratacao"
-    usuarios ||--o{ contratacao_has_usuarios : "usuarios_id"
     contratacao ||--o{ avaliacao : "contratacao_idcontratacao"
